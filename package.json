@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/erikaosterbur/wander-snaps#readme",
   "devDependencies": {
+    "concurrently": "^6.4.0",
     "nodemon": "^2.0.15"
   }
 }
