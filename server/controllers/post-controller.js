@@ -1,11 +1,36 @@
 const { Post, User, Comment } = require('../models');
 
-// getAllPosts,
-//     getSinglePost,
-//     deletePost,
+
 
 module.exports = {
 
+    async getAllPosts (req, res) {
+        const allPosts = await Post.find({})
+
+        if(!allPosts) {
+            return res.status(400).json({ message: "No posts found." })
+        }
+
+        res.status(200).json(allPosts)
+    },
+
+    async getSinglePost ({ params }, res) {
+
+        const post = await Post.findOne({ _id: params.id }).populate({
+            path: "comments",
+            populate: {
+                path: "postedBy",
+                model: "User"
+            }
+        });
+
+        if (!post) {
+            return res.status(400).json({ message: "No post found."});
+        }
+
+        res.status(200).json(post)
+    },
+    
     async createPost (req, res) {
         const postObj = { img: req.body.img, country: req.body.country, caption: req.body.caption, postedBy: req.body.userId }
         const newPost = await Post.create(postObj);
@@ -42,17 +67,7 @@ module.exports = {
             }    
         } catch (err) {
             res.status(500).json(err);
-        }
-
-
-
-       
-        
-        
-        
+        }  
     }
 
-
-
-    
 }
