@@ -27,6 +27,7 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.8.0",
     "auth0": "^2.37.0"
   }
 }
