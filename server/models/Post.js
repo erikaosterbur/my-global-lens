@@ -12,7 +12,7 @@ const postSchema = new Schema({
     },
     postedBy: {
         type: Schema.Types.ObjectId,
-        ref: User
+        ref: 'User'
     },
     postedOn: {
         type: Date,
