@@ -3,11 +3,11 @@ const { Schema, model } = require('mongoose');
 const commentSchema = new Schema({
     text: {
         type: String,
-        required: true,
+        // required: true,
     },
     postedBy: {
         type: Schema.Types.ObjectId,
-        ref: User
+        ref: 'User'
     },
     postedOn: {
         type: Date,

@@ -3,7 +3,11 @@ const { Comment, User } = require('../models');
 module.exports = {
     
     async createComment(req, res) {
-        const commentObj = { text: req.body.comment, postedBy: req.body.userId }
+        const commentObj = 
+        { 
+            text: req.body.text, 
+            postedBy: req.body.userId 
+        }
         const newComment = await Comment.create(commentObj);
 
         if (!newComment) {
@@ -15,7 +19,7 @@ module.exports = {
 
     async editComment(req, res) {
         const comment = await Comment.findOneAndUpdate({_id: req.params.id},
-            {text: req.body}
+            {text: req.body.text}
         )
 
         if (!comment) {
@@ -26,16 +30,23 @@ module.exports = {
     },
 
     async deleteComment(req, res) {
-        try {
-            const comment = await Comment.findById(req.params.id);
-            if (comment.userId === req.body.userId) {
-                await comment.deleteOne();
-                res.status(200).json("The comment has been deleted");
-            } else {
-                res.status(403).json("You can only delete your comments")
+        const comment = await Comment.deleteOne({_id: req.params.id});
+
+            if (!comment) {
+              return res.status(400).json({message: 'Unable to delete post'});
             }
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    }
+            res.status(200).json(comment);
+          }
+    //     try {
+    //         const comment = await Comment.findById(req.params.id);
+    //         if (comment.userId === req.body.userId) {
+    //             await comment.deleteOne();
+    //             res.status(200).json("The comment has been deleted");
+    //         } else {
+    //             res.status(403).json("You can only delete your comments")
+    //         }
+    //     } catch (err) {
+    //         res.status(500).json(err);
+    //     }
+    // }
 }
