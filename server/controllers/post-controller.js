@@ -57,17 +57,27 @@ module.exports = {
     },
 
     async deletePost (req, res) {
-        try {
-            const post = await Post.findOneById(req.params.id);
-            if (post.userId === req.body.userId) {
-                await post.deleteOne();
-                res.status(200).json( "The post has been deleted." );
-            } else {
-                res.status(403).json("You can only delete your own post." );
-            }    
-        } catch (err) {
-            res.status(500).json(err);
-        }  
-    }
+        // try {
+            const post = await Post.deleteOne({_id: req.params.id});
+
+            if (!post) {
+              return res.status(400).json({message: 'Unable to delete post'});
+            }
+            res.status(200).json(post);
+          }
+    //         const post = await Post.findOneById(req.params.id);
+    //         await Post.deleteOne();
+    //         res.status(200).json( "The post has been deleted." );
+
+    //         // if (post.userId === req.body.userId) {
+    //         //     await post.deleteOne();
+    //         //     res.status(200).json( "The post has been deleted." );
+    //         // } else {
+    //         //     res.status(403).json("You can only delete your own post." );
+    //         // }    
+    //     } catch (err) {
+    //         res.status(500).json(err);
+    //     }  
+    // }
 
 }
